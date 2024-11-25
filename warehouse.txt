@@ -21,7 +21,7 @@
             "name": "zyzyzy"
         },
         {
-            "url": "http://www.xn--sss604efuw.com/",
+            "url": "http://www.饭太硬.com/tv/",
             "name": "饭太硬"
         },
         {
