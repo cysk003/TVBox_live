@@ -1,7 +1,7 @@
 {
     "urls": [
         {
-            "url": "https://d.kstore.dev/download/9877/FourD/api.json",
+            "url": "https://api.451460.xyz/",
             "name": "panda_影视"
         },
         {
