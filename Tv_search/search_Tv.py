@@ -7,41 +7,48 @@ import sys
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 def get_url(name):
+    # 配置ChromeOptions以启用无头模式
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+
+    # 设置ChromeDriver
+    driver = webdriver.Chrome(options=chrome_options)
+
+    # 创建Chrome WebDriver 实例
+    # driver = webdriver.Chrome(options=options)
+
+    # 打开指定页面
+    driver.get('http://tonkiang.us/')
     try:
-        # 配置ChromeOptions以启用无头模式
-        chrome_options = Options()
-        chrome_options.add_argument("--headless")
-        chrome_options.add_argument("--disable-gpu")
-        chrome_options.add_argument("--no-sandbox")
-        chrome_options.add_argument("--disable-dev-shm-usage")
-
-        # 设置ChromeDriver
-        driver = webdriver.Chrome(options=chrome_options)
-
-        # 创建Chrome WebDriver 实例
-        # driver = webdriver.Chrome(options=options)
-
-        # 打开指定页面
-        driver.get('http://tonkiang.us/')
-
-        username_input = driver.find_element(By.ID, 'search')
+        # 等待直到 ID 为 'search' 的元素可被点击（或者可以修改成 visible, presence_of_element_located 等）
+        username_input = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.ID, 'search'))
+        )
+        # username_input = driver.find_element(By.ID, 'search')
         username_input.send_keys(f'{name}')
         submit_button = driver.find_element(By.NAME, 'Submit')
         submit_button.click()
+    except Exception as e:
+        print(f"找不到元素: {e}")
 
+    try:
         # 获取页面的源代码
         page_source = driver.page_source
-
         # 打印源代码
         print(type(page_source))
         m3u8_list = []
         # 将 HTML 转换为 Element 对象
         root = etree.HTML(page_source)
         result_divs = root.xpath("//div[@class='resultplus']")
-        print(f"搜索结果页数: {len(result_divs)}")
+        print(f"获取数据: {len(result_divs)}")
         # 打印提取到的 <div class="result"> 标签
         for div in result_divs:
             # 如果要获取标签内的文本内容
@@ -53,14 +60,13 @@ def get_url(name):
                     m3u8_list.append(element.text.strip())
                     with open('m3u8_list.txt', 'a', encoding='utf-8') as f:
                         f.write(f'{name},{element.text.strip()}' + '\n')
-
-        # 关闭WebDriver
-        driver.quit()
-        return m3u8_list
-
     except requests.exceptions.RequestException as e:
         print(f"Error: 请求异常. Exception: {e}")
-        return
+        pass
+
+    # 关闭WebDriver
+    driver.quit()
+    return m3u8_list
 
 
 def download_m3u8(url, name, initial_url=None):
@@ -206,7 +212,7 @@ if __name__ == '__main__':
     # 遍历当前文件下的txt文件,提取文件名
     TV_names = [os.path.splitext(f)[0] for f in os.listdir(current_directory) if f.endswith(".txt")]
     # '🇭🇰港台'  '🇨🇳卫视频道'  '🇨🇳央视频道'
-    # TV_names = ['🇨🇳央视频道','🇭🇰港台']
+    # TV_names = ['🇭🇰港台']
     for TV_name in TV_names:
         # 删除历史测试记录，防止文件追加写入
         if os.path.exists(TV_name):
