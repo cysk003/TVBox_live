@@ -179,7 +179,12 @@ if __name__ == '__main__':
     # 合并有效直播源m3u8链接
     tv_dict.clear()
     time.sleep(10)
-    os.remove('video.ts')
+    try:
+        os.remove('video.ts')
+        print('-----清理临时文件完成！------')
+
+    except Exception as e:
+        pass
     # 直播源去重
     re_dup(output_file_path)
 
