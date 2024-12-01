@@ -159,7 +159,7 @@ def re_dup(filepath):
 
 if __name__ == '__main__':
     # 下载速度阈值，默认1MB/s
-    speed = 0.9
+    speed = 1
     # 获取当前工作目录
     current_directory = os.getcwd()
     output_file_path = os.path.join(current_directory, 'Single_live.txt')
