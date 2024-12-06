@@ -25,9 +25,9 @@ def get_url(name):
     # 创建Chrome WebDriver 实例
     # driver = webdriver.Chrome(options=options)
 
-    # 打开指定页面
-    driver.get('http://tonkiang.us/')
     try:
+        # 打开指定页面
+        driver.get('http://tonkiang.us/')
         # 等待直到 ID 为 'search' 的元素可被点击（或者可以修改成 visible, presence_of_element_located 等）
         username_input = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.ID, 'search'))
@@ -43,7 +43,7 @@ def get_url(name):
         # 获取页面的源代码
         page_source = driver.page_source
         # 打印源代码
-        print(type(page_source))
+        print(page_source)
         m3u8_list = []
         # 将 HTML 转换为 Element 对象
         root = etree.HTML(page_source)
@@ -210,9 +210,9 @@ if __name__ == '__main__':
         pass
     tv_dict = {}
     # 遍历当前文件下的txt文件,提取文件名
-    TV_names = [os.path.splitext(f)[0] for f in os.listdir(current_directory) if f.endswith(".txt")]
+    # TV_names = [os.path.splitext(f)[0] for f in os.listdir(current_directory) if f.endswith(".txt")]
     # '🇭🇰港台'  '🇨🇳卫视频道'  '🇨🇳央视频道'
-    # TV_names = ['🇭🇰港台']
+    TV_names = ['🇨🇳央视频道']
     for TV_name in TV_names:
         # 删除历史测试记录，防止文件追加写入
         if os.path.exists(TV_name):
