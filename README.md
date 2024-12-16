@@ -24,7 +24,7 @@
 * 2023/12/21 新增速度测试阈值
 * 2023/12/24 origin直播源txt文件转化为统一编码（txt编码UTF-8会转换乱码，手动另存为编码UTF-8）
 * 2023/12/28 新增网络直播源下载本地；
-* 2024/12/16 新增增加url直播源下载转换，新增ffmpeg速度检测，新增本地web发布直播源；
+* 2024/12/16 新增url直播源下载转换，新增ffmpeg速度检测，新增本地web发布直播源；
 * [下载地址](https://supprise0901.github.io/TVBox_live/local_find/find_source.rar)
 
 
